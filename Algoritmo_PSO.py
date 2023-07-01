@@ -1,20 +1,21 @@
 import numpy as np
 import pandas as pd
 import time
+
 #Parámetros del problema:
 
 num_iteraciones=300
-num_particulas=30
-lb=-(100) #límite inferior para inicializar los valores de las posiciones
-ub=100 #limite superior para inicializar los valores de las posiciones
+num_particulas=20
+lb=-(5.12) #límite inferior para inicializar los valores de las posiciones
+ub=5.12 #limite superior para inicializar los valores de las posiciones
 # Actualización de las velocidades y posiciones de las partículas
-w = 0.5  # Factor de inercia
+w = 0.5 # Factor de inercia
 cl = 2  # Peso cognitivo, para el local
 cg = 2  # Peso social, para el global 
 
 # Configuración de reinicialización
 num_reinicios = 8  # Número máximo de reinicios
-epsilon = 0  # Umbral para reiniciar el algoritmo
+epsilon = 0.00001 # Umbral para reiniciar el algoritmo
 reinicios = 0  # Contador de reinicios
 
 
@@ -24,12 +25,15 @@ mejor_fitness = np.inf  # Almacena el valor de aptitud de la mejor solución enc
 
 #Cada una de las particulas actualiza su velocidad y posicion en cada iteracion
 # Funciones objetivo, cada una es una ecuación del sistema
+
+
 def f1(x, y):
-    return x**2 + x*y - 10
+    return  x**2+x*y-10
+
+
 
 def f2(x, y):
-    return y + 3*x*y**2 - 57
-
+    return y+3*x*y**2-57
 
 def aptitud(f1,f2):
     aptitud = abs(f1) + abs(f2)
@@ -66,13 +70,14 @@ def PSO():
         mejor_fitness_local.loc[actualizar, 'fitness'] = aptitud(fitness.loc[actualizar, 'f1'], fitness.loc[actualizar, 'f2'])  # Actualiza los valores de aptitud local correspondientes
         ul = np.random.uniform(0, 1) #parámetro aleatorio referente a la posición local
         ug = np.random.uniform(0, 1) #parámetro aleatorio referente a la posición global       
-        
+
         #Calculo de las nuevas velocidades:    
         velocidades = w * velocidades \
                     + cl * ul * (mejor_pos_local - posiciones) \
                     + cg * ug * (mejor_pos_global - posiciones)  # Actualiza las velocidades de las partículas
         # Calculo de las nuevas posiciones tras actualizar la velocidad
         posiciones += velocidades  
+
     return mejor_pos_global, mejor_fitness_global
 
 inicio = time.time()
@@ -93,11 +98,13 @@ fin = time.time()
 # Calculo del tiempo transcurrido
 tiempo_transcurrido = fin - inicio
 
-print("Mejor solución encontrada:")
+print("Solución encontrada por el PSO:")
 print(mejor_solucion)  # Imprime la mejor solución encontrada
-print("Valor de la función:")
+print("Error cometido:")
 print(mejor_fitness)  # Imprime el valor de aptitud de la mejor solución
 # Imprimir el tiempo transcurrido en segundos
 print("Tiempo transcurrido:", tiempo_transcurrido, "segundos")
+
+
 
 
