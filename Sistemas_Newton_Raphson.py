@@ -43,27 +43,20 @@ i = 0
 tramo = epsilon*2
 
 
-while (tramo>epsilon):
-    J = Jac.subs([(x,xi),(y,yi)])
-
-    # determinante de J
-    Jn = np.array(J,dtype=float)
-    determinante =  np.linalg.det(Jn)
-
-    # iteraciones
-    f1i = f1.subs([(x,xi),(y,yi)])
-    f2i = f2.subs([(x,xi),(y,yi)])
-
-    numerador1 = f1i*Jn[n-1,m-1]-f2i*Jn[0,m-1]
-    xi1 = xi - numerador1/determinante
-    numerador2 = f2i*Jn[0,0]-f1i*Jn[n-1,0]
-    yi1 = yi -numerador2/determinante
-    
-    tramo = np.max(np.abs([xi1-xi,yi1-yi]))
-    xi = xi1
-    yi = yi1
-
-    i = i+1
+while (tramo > epsilon):
+    J = Jac.subs([(x,xi),(y,yi)])  # Sustituye los valores actuales de xi y yi en la matriz Jacobiana (J)
+    Jn = np.array(J, dtype=float)  # Convierte la matriz Jacobiana a un array NumPy de tipo float
+    determinante = np.linalg.det(Jn)  # Calcula el determinante de la matriz Jacobiana
+    f1i = f1.subs([(x,xi),(y,yi)])  # Sustituye los valores actuales de xi y yi en la función f1
+    f2i = f2.subs([(x,xi),(y,yi)])  # Sustituye los valores actuales de xi y yi en la función f2
+    numerador1 = f1i*Jn[n-1,m-1] - f2i*Jn[0,m-1]  # Calcula el numerador de la nueva xi que es la jacobiana
+    xi1 = xi - numerador1/determinante  # Calcula el nuevo valor de xi
+    numerador2 = f2i*Jn[0,0] - f1i*Jn[n-1,0]  # Calcula el numerador de la nueva yi que es la jacobiana
+    yi1 = yi - numerador2/determinante  # Calcula el nuevo valor de yi
+    tramo = np.max(np.abs([xi1-xi, yi1-yi]))  # Calcula el máximo de las diferencias absolutas entre los nuevos valores de xi y yi y los anteriores
+    xi = xi1  # Actualiza el valor de xi con el nuevo valor calculado
+    yi = yi1  # Actualiza el valor de yi con el nuevo valor calculado
+    i = i + 1  # Incrementa el contador de iteraciones
     # print('iteración: ',itera)
     # print('Jacobiano con puntos iniciales: ')
     # print(J)
