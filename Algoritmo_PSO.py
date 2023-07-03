@@ -6,8 +6,8 @@ import time
 
 num_iteraciones=300
 num_particulas=20
-lb=-(5.12) #límite inferior para inicializar los valores de las posiciones
-ub=5.12 #limite superior para inicializar los valores de las posiciones
+lb=-(1000) #límite inferior para inicializar los valores de las posiciones
+ub=1000 #limite superior para inicializar los valores de las posiciones
 # Actualización de las velocidades y posiciones de las partículas
 w = 0.5 # Factor de inercia
 cl = 2  # Peso cognitivo, para el local
